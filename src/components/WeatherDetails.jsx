@@ -18,10 +18,9 @@ const WeatherDetails = () => {
   const { weatherData, city } = location.state || {};
 
   if (!weatherData) {
-    return <h1 className="text-center text-red-600">No data available. Please go back and try again.</h1>;
+    return <h1 className="text-center text-red-600 p-4">No data available. Please go back and try again.</h1>;
   }
 
-  // Determine background based on weather condition
   const weatherCondition = weatherData.weather[0].main;
   const getBackgroundImage = (condition) => {
     switch (condition) {
@@ -32,7 +31,7 @@ const WeatherDetails = () => {
       case 'Rain': return rain;
       case 'Snow': return snow;
       case 'Thunderstorm': return thunderstorm;
-      default: return clear; // Fallback to clear if unknown
+      default: return clear;
     }
   };
 
@@ -50,16 +49,13 @@ const WeatherDetails = () => {
       default: return faSun;
     }
   };
-  
+
   const weatherIcon = getWeatherIcon(weatherCondition);
 
   const currentDate = new Date();
-
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December"];
 
   const day = dayNames[currentDate.getDay()];
   const date = currentDate.getDate();
@@ -68,30 +64,31 @@ const WeatherDetails = () => {
 
   return (
     <div 
-      className="w-full min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat text-white"
+      className="w-full min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat text-white px-4"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="bg-gray-200 w-1/3 rounded-xl flex p-5 flex-col items-center bg-white/20 backdrop-blur-md border border-white/30 shadow-lg">
-
-    <div className='flex flex-col items-center text-black'>
-      <h1 className="text-3xl font-bold mb-3 text-black">Weather in {city}, {weatherData.sys.country}</h1>
-      <p className="text-lg mb-2 text-2xl font-bold">{date} ({day}), {month}, {year}</p>
-      <p className="text-5xl font-bold mb-2">{Math.floor(weatherData.main.temp-273.15)}°C</p>
-      <p className="font-semibold mb-2 text-2xl">{weatherData.weather[0].main}  
-        <FontAwesomeIcon icon={weatherIcon} className="ml-2" />
-      </p>
-      <p className="text-lg mb-2"></p>
-      <p className="text-lg mb-2">Description: {weatherData.weather[0].description} | Cloudiness: {weatherData.clouds.all}%</p>
-      <p className="text-lg mb-2">Wind Speed: {weatherData.wind.speed} m/s | Wind Direction: {weatherData.wind.deg}°</p>
-      <p className="text-lg mb-2">Feels Like: {Math.ceil(weatherData.main.feels_like-273.15)}°C | Humidity: {weatherData.main.humidity}%</p>
-      <p className="text-lg mb-2">Max Temp: {Math.ceil(weatherData.main.temp_max-273.15)}°C | Min Temp:  {Math.floor(weatherData.main.temp_min-273.15)}°C</p>
-    </div>
-      <button 
-        onClick={() => navigate('/')}
-        className="bg-blue-600 text-white py-2 px-4 rounded mt-2 active:bg-blue-800 hover:bg-blue-700"
-      >
-        Go Back
-      </button>
+      <div className="w-full sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-xl p-6 sm:p-8 bg-white/20 backdrop-blur-md border border-white/30 shadow-lg">
+        <div className="flex flex-col items-center text-black text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-bold">Weather in {city}, {weatherData.sys.country}</h1>
+          <p className="text-lg sm:text-xl font-medium">{date} ({day}), {month}, {year}</p>
+          <p className="text-4xl sm:text-5xl font-bold">{Math.floor(weatherData.main.temp - 273.15)}°C</p>
+          <p className="text-xl font-semibold flex items-center justify-center gap-2">
+            {weatherData.weather[0].main}
+            <FontAwesomeIcon icon={weatherIcon} />
+          </p>
+          <p className="text-base">Description: {weatherData.weather[0].description} | Cloudiness: {weatherData.clouds.all}%</p>
+          <p className="text-base">Wind: {weatherData.wind.speed} m/s, Direction: {weatherData.wind.deg}°</p>
+          <p className="text-base">Feels Like: {Math.ceil(weatherData.main.feels_like - 273.15)}°C | Humidity: {weatherData.main.humidity}%</p>
+          <p className="text-base">Max: {Math.ceil(weatherData.main.temp_max - 273.15)}°C | Min: {Math.floor(weatherData.main.temp_min - 273.15)}°C</p>
+        </div>
+        <div className="flex justify-center mt-6">
+          <button 
+            onClick={() => navigate('/')}
+            className="bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700 active:bg-blue-800 transition duration-200"
+          >
+            Go Back
+          </button>
+        </div>
       </div>
     </div>
   );
